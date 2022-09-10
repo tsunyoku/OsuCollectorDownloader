@@ -9,11 +9,18 @@ public static class BeatmapsetDownloader
         BaseAddress = new Uri("https://kitsu.moe/")
     };
 
-    public static async Task<BeatmapsetDownload> DownloadBeatmapset(int beatmapsetId)
+    public static async Task<BeatmapsetDownload?> DownloadBeatmapset(int beatmapsetId)
     {
-        var stream = await HttpClient.GetStreamAsync($"d/{beatmapsetId}");
-        if (stream is null)
-            throw new Exception($"Failed to download beatmapset ID {beatmapsetId}.");
+        Stream stream;
+        try
+        {
+            stream = await HttpClient.GetStreamAsync($"d/{beatmapsetId}");
+        }
+        catch (Exception)
+        {
+            // TODO: do better than this lol
+            return null;
+        }
 
         var memoryStream = new MemoryStream();
         await stream.CopyToAsync(memoryStream);
@@ -33,7 +40,8 @@ public static class BeatmapsetDownloader
         foreach (var beatmapsetId in beatmapsetIds)
         {
             var beatmapset = await DownloadBeatmapset(beatmapsetId);
-            beatmapsets.Add(beatmapset);
+            if (beatmapset != null)
+                beatmapsets.Add(beatmapset);
         }
 
         return beatmapsets.ToImmutableArray();
