@@ -27,9 +27,6 @@ foreach (var collection in collections)
 
     var beatmapsetIds = collection.BeatmapDetails.Beatmaps.Select(x => x.BeatmapsetId).ToImmutableArray();
 
-    var beatmapsetDownloads =
-        await BeatmapsetDownloader.DownloadBeatmapsets(beatmapsetIds);
-
     var filePath = string.Empty;
     IWriter? writer = null;
 
@@ -37,6 +34,9 @@ foreach (var collection in collections)
     {
         case SaveOption.ZipFile:
             filePath = Path.Combine(folderPath, $"{collection.CollectionDetails.Name}.zip");
+            var beatmapsetDownloads =
+                await BeatmapsetDownloader.DownloadBeatmapsets(beatmapsetIds);
+
             writer = new ZipWriter(beatmapsetDownloads, filePath);
             break;
         case SaveOption.OsdbFile:
