@@ -1,4 +1,4 @@
-﻿namespace OsuCollectorDownloader.Enums;
+﻿namespace OsuCollectorDownloaderCLI.Enums;
 
 public enum SaveOption
 {

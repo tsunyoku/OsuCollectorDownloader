@@ -11,8 +11,4 @@
       <ProjectReference Include="..\OsuCollectorDownloaderLib\OsuCollectorDownloaderLib.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Helpers" />
-    </ItemGroup>
-
 </Project>

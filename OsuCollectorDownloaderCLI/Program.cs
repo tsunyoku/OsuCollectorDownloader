@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
-using OsuCollectorDownloader.Enums;
 using OsuCollectorDownloader.Helpers;
+using OsuCollectorDownloaderCLI.Enums;
 using OsuCollectorDownloaderLib;
 using OsuCollectorDownloaderLib.Helpers;
 using OsuCollectorDownloaderLib.Models;

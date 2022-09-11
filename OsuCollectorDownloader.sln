@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuCollectorDownloaderLib", "OsuCollectorDownloaderLib\OsuCollectorDownloaderLib.csproj", "{83172AF6-6F45-4511-942B-8A6DFDB8665A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuCollectorDownloader", "OsuCollectorDownloader\OsuCollectorDownloader.csproj", "{88E8DA05-5192-4636-B772-FE7E95C366C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuCollectorDownloaderCLI", "OsuCollectorDownloaderCLI\OsuCollectorDownloaderCLI.csproj", "{88E8DA05-5192-4636-B772-FE7E95C366C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
