@@ -20,6 +20,8 @@ public class ZipWriter : IWriter
     public void Write()
     {
         var tempPath = Path.GetTempPath();
+        while (Directory.Exists(tempPath) || File.Exists(tempPath))
+            tempPath = Path.GetTempPath();
 
         foreach (var beatmapset in _beatmapsets)
         {
