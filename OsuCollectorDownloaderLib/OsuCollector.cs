@@ -35,7 +35,7 @@ public static class OsuCollector
             throw new Exception($"Collection ID {collectionId} not found.");
 
         var collectionBeatmaps = await
-            HttpClient.GetFromJsonAsync<CollectionBeatmapsResponse?>(
+            HttpClient.GetFromJsonAsync<CollectionBeatmapsResponse>(
                 $"collections/{collectionId}/beatmapsv2?perPage=5000&sortBy=beatmapset.artist&orderBy=asc");
 
         if (collectionBeatmaps is null)
