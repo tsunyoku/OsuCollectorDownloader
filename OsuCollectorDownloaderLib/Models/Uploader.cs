@@ -8,7 +8,7 @@ public class Uploader
     public string Username { get; init; } = default!;
     
     [JsonPropertyName("rank")]
-    public int Rank { get; init; }
+    public int? Rank { get; init; }
     
     [JsonPropertyName("id")]
     public int Id { get; init; }
