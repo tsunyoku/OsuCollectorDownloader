@@ -11,10 +11,10 @@ public static class BeatmapsetDownloader
 
     public static async Task<BeatmapsetDownload?> DownloadBeatmapset(int beatmapsetId)
     {
-        Stream stream;
+        byte[] data;
         try
         {
-            stream = await HttpClient.GetStreamAsync($"d/{beatmapsetId}");
+            data = await HttpClient.GetByteArrayAsync($"d/{beatmapsetId}");
         }
         catch (Exception)
         {
@@ -22,13 +22,10 @@ public static class BeatmapsetDownloader
             return null;
         }
 
-        var memoryStream = new MemoryStream();
-        await stream.CopyToAsync(memoryStream);
-
         return new BeatmapsetDownload
         {
             BeatmapsetId = beatmapsetId,
-            OszFile = memoryStream
+            OszFile = new MemoryStream(data)
         };
     }
 
@@ -36,13 +33,28 @@ public static class BeatmapsetDownloader
         IReadOnlyList<int> beatmapsetIds)
     {
         var beatmapsets = new List<BeatmapsetDownload>();
+        var tasks = new List<Task>();
 
         foreach (var beatmapsetId in beatmapsetIds)
         {
-            var beatmapset = await DownloadBeatmapset(beatmapsetId);
-            if (beatmapset != null)
-                beatmapsets.Add(beatmapset);
+            async Task BeatmapsetDownloadTask()
+            {
+                // to avoid ratelimits
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+
+                var beatmapset = await DownloadBeatmapset(beatmapsetId);
+                if (beatmapset != null)
+                {
+                    beatmapsets.Add(beatmapset);
+                    Console.WriteLine($"Downloaded beatmapset {beatmapsetId}");
+                }
+            }
+
+            tasks.Add(BeatmapsetDownloadTask());
         }
+
+        // wait for all maps to download
+        await Task.WhenAll(tasks);
 
         return beatmapsets.ToImmutableArray();
     }
