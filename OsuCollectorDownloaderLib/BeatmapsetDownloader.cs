@@ -6,7 +6,7 @@ public static class BeatmapsetDownloader
 {
     private static readonly HttpClient HttpClient = new()
     {
-        BaseAddress = new Uri("https://kitsu.moe/")
+        BaseAddress = new Uri("https://mirror.tsunyoku.xyz/")
     };
 
     public static async Task<BeatmapsetDownload?> DownloadBeatmapset(int beatmapsetId)
