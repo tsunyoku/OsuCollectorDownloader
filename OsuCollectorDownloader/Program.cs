@@ -53,3 +53,4 @@ foreach (var collection in collections)
 }
 
 Console.WriteLine("Finished fetching collections.");
+Console.ReadKey();
