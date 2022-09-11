@@ -24,6 +24,27 @@ public static class OsuCollector
         _initialized = true;
     }
 
+    public static async Task<CollectionBeatmapsResponse> FetchBeatmaps(int collectionId, int? cursor = null)
+    {
+        cursor ??= 0;
+        Initialize();
+
+        var collectionBeatmaps = await
+            HttpClient.GetFromJsonAsync<CollectionBeatmapsResponse>(
+                $"collections/{collectionId}/beatmapsv2?perPage=5000&sortBy=beatmapset.artist&orderBy=asc&cursor={cursor}");
+ 
+        if (collectionBeatmaps is null)
+            throw new Exception($"Failed to get beatmaps for collection ID {collectionId}.");
+
+        if (collectionBeatmaps.HasMore)
+        {
+            var extraBeatmaps = await FetchBeatmaps(collectionId, collectionBeatmaps.NextPageCursor);
+            collectionBeatmaps.Beatmaps = collectionBeatmaps.Beatmaps.Concat(extraBeatmaps.Beatmaps).ToImmutableArray();
+        }
+
+        return collectionBeatmaps;
+    }
+
     public static async Task<Collection> FetchCollection(int collectionId)
     {
         Initialize();
@@ -34,12 +55,7 @@ public static class OsuCollector
         if (collection is null)
             throw new Exception($"Collection ID {collectionId} not found.");
 
-        var collectionBeatmaps = await
-            HttpClient.GetFromJsonAsync<CollectionBeatmapsResponse>(
-                $"collections/{collectionId}/beatmapsv2?perPage=5000&sortBy=beatmapset.artist&orderBy=asc");
-
-        if (collectionBeatmaps is null)
-            throw new Exception($"Failed to get beatmaps for collection ID {collectionId}.");
+        var collectionBeatmaps = await FetchBeatmaps(collectionId);
 
         return new Collection
         {

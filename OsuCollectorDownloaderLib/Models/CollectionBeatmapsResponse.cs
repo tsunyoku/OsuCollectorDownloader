@@ -11,5 +11,5 @@ public class CollectionBeatmapsResponse
     public bool HasMore { get; init; }
 
     [JsonPropertyName("beatmaps")]
-    public IReadOnlyList<Beatmap> Beatmaps { get; init; } = default!;
+    public IReadOnlyList<Beatmap> Beatmaps { get; set; } = default!;
 }
