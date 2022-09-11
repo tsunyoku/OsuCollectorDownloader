@@ -86,7 +86,7 @@ public class Beatmap
     public int TotalLength { get; init; }
     
     [JsonPropertyName("max_combo")]
-    public int MaxCombo { get; init; }
+    public int? MaxCombo { get; init; }
     
     [JsonPropertyName("count_sliders")]
     public int SliderCount { get; init; }
